@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\playerScript.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\backgroundScript.js">
     <Files>
-      <File FileName="Assets\Script\playerScript.js" Line="58" Column="42" />
-      <File FileName="Assets\Script\GameManager.js" Line="10" Column="25" />
+      <File FileName="Assets\Script\playerScript.js" Line="21" Column="4" />
+      <File FileName="Assets\Script\GameManager.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\backgroundScript.js" Line="4" Column="57" />
       <File FileName="..\..\PandoCom\PandoCom_prototype\Assets\Scripts\GameManager.js" Line="1" Column="1" />
       <File FileName="..\..\PandoCom\PandoCom_prototype\Assets\Scripts\spaceshipScript.js" Line="1" Column="1" />
     </Files>

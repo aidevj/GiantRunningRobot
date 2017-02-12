@@ -9,7 +9,7 @@ public var jumpPower : float;    			// Integer: Jump force multiplyer
 /// Start function
 /// Used for initialization
 function Start () {
-	Debug.Log("playerScript Initialized");
+	//Debug.Log("playerScript Initialized");
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
 }
@@ -17,12 +17,13 @@ function Start () {
 /// Update function
 /// Called every frame
 function Update () {
-	//Debug.Log("is updating");
-    // Check is player is dead
+	
+	//Debug.Log("grounded=" + grounded);
+    // Check is player =is dead
     if (isDead) die();
 
     // Check player is grounded
-    if (!grounded && r2d.velocity.y == 0) {
+    if (!grounded && r2d.velocity.y == 0  && r2d.transform.position.y <= -9.032f) {
         grounded = true;
     }
 
@@ -55,7 +56,7 @@ function jump() {
 
 function glide(){
 	Debug.Log("GLIDING");
-	r2d.AddForce(transform.up * jumpPower/50);
+	r2d.AddForce(transform.up * jumpPower/60);
 }
 
 //*****************************************************************************************
