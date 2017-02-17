@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\playerScript.js">
     <Files>
-      <File FileName="Assets\Script\playerScript.js" Line="71" Column="33" />
+      <File FileName="Assets\Script\playerScript.js" Line="84" Column="23" />
       <File FileName="Assets\Script\GameManager.js" Line="1" Column="1" />
       <File FileName="Assets\Script\backgroundScript.js" Line="1" Column="1" />
       <File FileName="..\..\PandoCom\PandoCom_prototype\Assets\Scripts\GameManager.js" Line="1" Column="1" />
