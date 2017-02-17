@@ -1,12 +1,14 @@
 ﻿// Attributes
 private var r2d;      					    // Required: 2D Rigidbody Component
-private var HP : int;     				    // Integer: HP
 //private var grounded : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
 //private var jumping : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
 private var deltaTime : float = 0;			// Float: Time Tracker
 public var jumpPower : float;    			// Integer: Jump force multiplyer
 
-public var cube : GameObject;
+public var cube : GameObject;               // GameObject: TEMPORARY Attack helper
+
+private var HP : int;     				    // Integer: HP
+private var BoosterGauge : int;             // Interger: Booster Gauge count
 
 private enum State { Running,Jumping,Gliding,Falling,Damaged,Attacking,Death };
 public var currentState : State;
@@ -20,15 +22,15 @@ function Start () {
     // State defaulted
     currentState = State.Running;
 
-    Debug.Log("Started");
+    var changedState;
 
 }
 
 /// Update function: Called every frame
 function Update () {
 
-	Debug.Log("Current State = " + currentState);
-
+    var lastState = currentState;
+    
 	// check state catches
 	if (r2d.velocity.y == 0) {
 		currentState = State.Running;
@@ -52,7 +54,7 @@ function Update () {
     //	transform.position.y -=0.1f;
     //}
 
-    // Input Management
+    // Input Management------------------------------------------------
     // JUMP
     if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){ 
     	//deltaTime = Time.deltaTime;
@@ -72,7 +74,14 @@ function Update () {
 	}
     else if(Input.GetKeyDown(KeyCode.LeftShift)){
 		attack();
-	}
+    }
+    //------------------------------------------------------------------
+
+    // Only print state to console if there is a change
+    changedState = currentState;
+    if (lastState != changedState) {
+        Debug.Log("Current State = " + currentState);
+    }
 }
 
 //*****************************************************************************************
