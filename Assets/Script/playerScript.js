@@ -2,10 +2,12 @@
 private var r2d;      					    // Required: 2D Rigidbody Component
 //private var grounded : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
 //private var jumping : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
-private var deltaTime : float = 0;			// Float: Time Tracker
 public var jumpPower : float;    			// Integer: Jump force multiplyer
+private var startTime: float;
+private var attackTime : float = 0.5f;
+private var isAttacking: boolean = false;
 
-public var cube : GameObject;               // GameObject: TEMPORARY Attack helper
+public var attackbox : GameObject;              // GameObject: Attack box game object
 
 private var HP : int;     				    // Integer: HP
 private var BoosterGauge : int;             // Interger: Booster Gauge count
@@ -17,7 +19,15 @@ public var currentState : State;
 function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
-    cube= GameObject.CreatePrimitive(PrimitiveType.Cube);
+    //attackbox = 
+    // Attack Box attackbox Initialization
+  // attackbox = GameObject.CreatePrimitive(PrimitiveType.Cube);
+  // attackbox.name = "AttackBox";
+  // attackbox.transform.localScale = transform.localScale;
+  // attackbox.transform.localScale.y *=2;
+  // //attackbox.AddComponent.<BoxCollider>();							// give it a box collider (why is there 2)
+  // attackbox.GetComponent.<Renderer>().enabled = false;			// don't render the box
+  // attackbox.GetComponent.<BoxCollider>().isTrigger = true; // enable trigger		/////// not working
 
     // State defaulted
     currentState = State.Running;
@@ -40,6 +50,15 @@ function Update () {
 		currentState = State.Falling;
 	}
 
+	if(isAttacking){
+        attackbox.transform.position.y = transform.position.y + 1.0f;
+		if(startTime + attackTime < Time.time){
+			//Destroy(attackbox);
+		    isAttacking = false;
+			attackbox.transform.position.y = -5;
+		}
+	}
+
     // Check is player is dead
     if (isDead) die();
 
@@ -54,6 +73,7 @@ function Update () {
     //	transform.position.y -=0.1f;
     //}
 
+
     // Input Management------------------------------------------------
     // JUMP
     if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){ 
@@ -61,20 +81,16 @@ function Update () {
     	currentState = State.Jumping;
         jump();
     }
-    //if(Input.GetKeyUp(KeyCode.Space)){
-    //	jumping = false;
-    //}
     // Attack
-    if (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift)) {
-        // TO DO: Attack code here.
+    if (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) {
+        //currentState = State.Attacking; //changes state
+		attack();
     }
+
     else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
     	currentState = State.Gliding;
 		glide();
 	}
-    else if(Input.GetKeyDown(KeyCode.LeftShift)){
-		attack();
-    }
     //------------------------------------------------------------------
 
     // Only print state to console if there is a change
@@ -101,14 +117,16 @@ function jump() {
 }
 
 function glide(){
-	//Debug.Log("GLIDING");
 	r2d.AddForce(transform.up * jumpPower/30);
 	//r2d.transform.position.y += 0.2f;
 }
 
 function attack(){
-    //make enemy take damage when close enough
-    //Debug.Log("Attacked!");
+    isAttacking = true;
+
+	attackbox.transform.position = transform.position;
+	attackbox.transform.position.x += transform.localScale.x;
+	startTime = Time.time;
 
 }
 //*****************************************************************************************
@@ -116,26 +134,4 @@ function attack(){
 
 function isDead() {
     return HP <= 0 ? true : false;
-}
-
-function GetState() {
-	// JUMPING STATE
-	// PREREQ: 
-	//		Player must be grounded BEFORE able to enter this state <-- will not work, while in jumping they will be set to grounded in teh else (?)
-	/*if (grounded && jumping && r2d.velocity.y > 0) {
-		currentState = State.Jumping;
-	}
-	// GLIDING STATE
-	else if (!grounded) {
-		
-	}
-	else if () {}
-	else {
-		currentState = State.Running;
-	}*/
-
-	// FALLING STATE CAUGHT
-	if (r2d.velocity.y < 0) {
-		currentState = State.Falling;
-	}
 }
