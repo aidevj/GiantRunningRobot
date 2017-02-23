@@ -1,14 +1,12 @@
 ﻿// Attributes
 private var r2d;      					    // Required: 2D Rigidbody Component
-//private var grounded : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
-//private var jumping : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
 public var jumpPower : float;    			// Integer: Jump force multiplyer
 private var startTime: float;
 private var attackTime : float = 0.5f;
 private var isAttacking: boolean = false;
+public var attackbox : GameObject;          // GameObject: Attack box game object
 
-public var attackbox : GameObject;              // GameObject: Attack box game object
-
+// Gauge stuff
 private var HP : int;     				    // Integer: HP
 private var BoosterGauge : int;             // Interger: Booster Gauge count
 
@@ -19,21 +17,10 @@ public var currentState : State;
 function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
-    //attackbox = 
-    // Attack Box attackbox Initialization
-  // attackbox = GameObject.CreatePrimitive(PrimitiveType.Cube);
-  // attackbox.name = "AttackBox";
-  // attackbox.transform.localScale = transform.localScale;
-  // attackbox.transform.localScale.y *=2;
-  // //attackbox.AddComponent.<BoxCollider>();							// give it a box collider (why is there 2)
-  // attackbox.GetComponent.<Renderer>().enabled = false;			// don't render the box
-  // attackbox.GetComponent.<BoxCollider>().isTrigger = true; // enable trigger		/////// not working
-
+ 
     // State defaulted
     currentState = State.Running;
-
     var changedState;
-
 }
 
 /// Update function: Called every frame
@@ -61,17 +48,6 @@ function Update () {
 
     // Check is player is dead
     if (isDead) die();
-
-    // Check player is grounded
-    //if (!grounded && r2d.transform.position.y <=2.85f ) {
-    //    grounded = true;
-    //    jumping = false;
-    //}
-
-    // Simulated Gravity
-    //if(!grounded && !jumping){
-    //	transform.position.y -=0.1f;
-    //}
 
 
     // Input Management------------------------------------------------
@@ -109,11 +85,6 @@ function die(){
 
 function jump() {
    r2d.AddForce(transform.up * jumpPower);
-
-   //if(transform.position.y <=5.5f){
-   //		transform.position.y += 0.5f;
-   //}
-   //grounded = false;
 }
 
 function glide(){

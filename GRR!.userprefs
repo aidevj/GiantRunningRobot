@@ -1,16 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Touchable.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\HUDScript.js">
     <Files>
-      <File FileName="Assets\Script\playerScript.js" Line="8" Column="42" />
+      <File FileName="Assets\Script\playerScript.js" Line="8" Column="1" />
       <File FileName="Assets\Script\GameManager.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\backgroundScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\backgroundScript.js" Line="6" Column="2" />
       <File FileName="Assets\Script\SpawnScript.js" Line="1" Column="1" />
       <File FileName="Assets\Script\platformScript.js" Line="1" Column="1" />
       <File FileName="Assets\Script\enemyScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\ButtonScript.js" Line="2" Column="1" />
-      <File FileName="Assets\Script\MenuScript.js" Line="10" Column="39" />
-      <File FileName="Assets\Script\Touchable.cs" Line="13" Column="2" />
+      <File FileName="Assets\Script\ButtonScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\MenuScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\HUDScript.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
