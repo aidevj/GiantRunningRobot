@@ -1,13 +1,16 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\enemyScript.js">
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Touchable.cs">
     <Files>
-      <File FileName="Assets\Script\playerScript.js" Line="54" Column="8" />
+      <File FileName="Assets\Script\playerScript.js" Line="8" Column="42" />
       <File FileName="Assets\Script\GameManager.js" Line="1" Column="1" />
       <File FileName="Assets\Script\backgroundScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\SpawnScript.js" Line="18" Column="54" />
+      <File FileName="Assets\Script\SpawnScript.js" Line="1" Column="1" />
       <File FileName="Assets\Script\platformScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\enemyScript.js" Line="49" Column="73" />
+      <File FileName="Assets\Script\enemyScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\ButtonScript.js" Line="2" Column="1" />
+      <File FileName="Assets\Script\MenuScript.js" Line="10" Column="39" />
+      <File FileName="Assets\Script\Touchable.cs" Line="13" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
