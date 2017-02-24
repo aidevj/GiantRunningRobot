@@ -7,10 +7,10 @@ private var isAttacking: boolean = false;
 public var attackbox : GameObject;          // GameObject: Attack box game object
 
 // Gauge stuff
-private var HP : int;     				    // Integer: HP
+var HP : int = 100;  				// Integer: HP, default (100%)
 private var BoosterGauge : int;             // Interger: Booster Gauge count
 
-private enum State { Running,Jumping,Gliding,Falling,Damaged,Attacking,Death };
+private enum State { Running,Jumping,Gliding,Falling,Death };
 public var currentState : State;
 
 /// Start function: Used for initialization
@@ -28,19 +28,19 @@ function Update () {
 
     var lastState = currentState;
     
-	// check state catches
+	// State catching-------------------------------------------------------
 	if (r2d.velocity.y == 0) {
 		currentState = State.Running;
 	}
-	//else if (currentState == State.Jumping && r2d.velocity.y < 0) {
 	else if (r2d.velocity.y < 0) {
 		currentState = State.Falling;
 	}
 
+	// Action catching-------------------------------------------------------
+
 	if(isAttacking){
         attackbox.transform.position.y = transform.position.y + 1.0f;
 		if(startTime + attackTime < Time.time){
-			//Destroy(attackbox);
 		    isAttacking = false;
 			attackbox.transform.position.y = -5;
 		}
@@ -52,14 +52,12 @@ function Update () {
 
     // Input Management------------------------------------------------
     // JUMP
-    if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){ 
-    	//deltaTime = Time.deltaTime;
+    if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){
     	currentState = State.Jumping;
         jump();
     }
     // Attack
     if (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) {
-        //currentState = State.Attacking; //changes state
 		attack();
     }
 
@@ -105,4 +103,8 @@ function attack(){
 
 function isDead() {
     return HP <= 0 ? true : false;
+}
+
+function takeDamage(damage : int){
+	HP -= damage;
 }
