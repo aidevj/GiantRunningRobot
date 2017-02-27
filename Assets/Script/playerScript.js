@@ -1,23 +1,24 @@
 ﻿// Attributes
 private var r2d;      					    // Required: 2D Rigidbody Component
-public var jumpPower : float;    			// Integer: Jump force multiplyer
+public var jumpPower : float = 300;			// Integer: Jump force multiplyer
+public var attackbox : GameObject;          // GameObject: Attack box game object
 private var startTime: float;
 private var attackTime : float = 0.5f;
 private var isAttacking: boolean = false;
-public var attackbox : GameObject;          // GameObject: Attack box game object
 
 // Gauge stuff
-var HP : int = 100;  				// Integer: HP, default (100%)
+private var HP : int = 100;  				// Integer: HP, default (100%)
 private var BoosterGauge : int;             // Interger: Booster Gauge count
-
 private enum State { Running,Jumping,Gliding,Falling,Death };
-public var currentState : State;
+private var currentState : State;
+private var startPosX;
 
 /// Start function: Used for initialization
 function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
- 
+
+    startPosX = transform.position.x;
     // State defaulted
     currentState = State.Running;
     var changedState;
@@ -25,8 +26,8 @@ function Start () {
 
 /// Update function: Called every frame
 function Update () {
-
-    var lastState = currentState;
+	transform.position.x = startPosX;
+    var lastState = currentState;	// for Debug: prints current state to console upon change
     
 	// State catching-------------------------------------------------------
 	if (r2d.velocity.y == 0) {
@@ -47,27 +48,27 @@ function Update () {
 	}
 
     // Check is player is dead
-    if (isDead) die();
+    if (IsDead) Die();
 
 
     // Input Management------------------------------------------------
-    // JUMP
+    // Space: Jump
     if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){
     	currentState = State.Jumping;
-        jump();
+        Jump();
     }
-    // Attack
-    if (Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) {
-		attack();
+    // Left/Right Shift: Attack
+    if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) {
+		Attack();
     }
-
+    // Hold Space: Glide
     else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
     	currentState = State.Gliding;
-		glide();
+		Glide();
 	}
     //------------------------------------------------------------------
 
-    // Only print state to console if there is a change
+    // for Debug: Only print state to console if there is a change
     changedState = currentState;
     if (lastState != changedState) {
         Debug.Log("Current State = " + currentState);
@@ -77,22 +78,20 @@ function Update () {
 //*****************************************************************************************
 // Player action functions
 
-function die(){
+function Die(){
     // TO DO: Death sequence code here.
 }
 
-function jump() {
+function Jump() {
    r2d.AddForce(transform.up * jumpPower);
 }
 
-function glide(){
-	r2d.AddForce(transform.up * jumpPower/30);
-	//r2d.transform.position.y += 0.2f;
+function Glide(){
+	r2d.AddForce(transform.up * jumpPower / 30);
 }
 
-function attack(){
+function Attack(){
     isAttacking = true;
-
 	attackbox.transform.position = transform.position;
 	attackbox.transform.position.x += transform.localScale.x;
 	startTime = Time.time;
@@ -101,10 +100,14 @@ function attack(){
 //*****************************************************************************************
 // Helper functions
 
-function isDead() {
+function IsDead() {
     return HP <= 0 ? true : false;
 }
 
-function takeDamage(damage : int){
+/// Function to deplete HP by damage recieved from HUD Script
+/// Then sends new HP count back to HUD
+function TakeDamage(damage : int){
 	HP -= damage;
+	// send new HP back to HUD
+
 }

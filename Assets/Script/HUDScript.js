@@ -1,10 +1,12 @@
 ﻿#pragma strict
-public var PlayerObj : GameObject;				// GameObject: Player object from which to refer to HP and BoosterGauge
+import UnityEngine.UI;
+//public var PlayerObj : GameObject;			// GameObject: Player object from which to refer to HP and BoosterGauge
 public var HPBarObj : GameObject;				// Visible HP Bar object
-public var BoosterGaugeObj : GameObject;		// Visible Booster Gauge object
-public var HPNumTextObj : GameObject;
+//public var BoosterGaugeObj : GameObject;		// Visible Booster Gauge object
+//public var HPNumTextObj : GameObject;
 
 private var player;
+private var playerScript;		// Reference to playerScript component
 private var HPnumtext;
 
 // HP BAR ATTRIBUTES
@@ -14,8 +16,10 @@ private var initialSizeHP : int;				// Used for size scaling
 
 function Start () {
 	// Store object's script components in a variable to be used
-	player = PlayerObj.GetComponent(playerScript);		///////
-	HPnumtext = HPNumTextObj.GetComponent(UI.Text);		///////
+	//player = GameObject.Find("player");		///////
+	//playerScript = player.GetComponent(playerScript);
+
+	//HPnumtext = HPNumTextObj.GetComponent(UI.Text);		///////
 
 }
 
