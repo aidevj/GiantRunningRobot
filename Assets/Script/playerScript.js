@@ -1,14 +1,15 @@
 ﻿// Attributes
 private var r2d;      					    // Required: 2D Rigidbody Component
 public var jumpPower : float = 300;			// Integer: Jump force multiplyer
-public var attackbox : GameObject;          // GameObject: Attack box game object
+
+private var attackbox : GameObject;          // GET FROM GM
 private var startTime: float;
 private var attackTime : float = 0.5f;
 private var isAttacking: boolean = false;
 
 // Gauge stuff
 private var HP : int = 100;  				// Integer: HP, default (100%)
-private var BoosterGauge : int;             // Interger: Booster Gauge count
+private var BoosterGauge : int = 100;       // Interger: Booster Gauge count
 private enum State { Running,Jumping,Gliding,Falling,Death };
 private var currentState : State;
 private var startPosX;
@@ -17,6 +18,11 @@ private var startPosX;
 function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
+
+    // Get attackbox from GM??
+    attackbox = GameObject.Find("AttackBox(Clone)");
+    attackbox.transform.localPosition = Vector3(1, .5, 0);	// this is making it 1,.5,0 at the GLOBAL position?????
+    attackbox.SetActive(false);	// begins false
 
     startPosX = transform.position.x;
     // State defaulted
@@ -40,10 +46,14 @@ function Update () {
 	// Action catching-------------------------------------------------------
 
 	if(isAttacking){
-        attackbox.transform.position.y = transform.position.y + 1.0f;
+        //attackbox.transform.position.y = 1.0f;
+        //attackbox.SetActive(true);
+
 		if(startTime + attackTime < Time.time){
 		    isAttacking = false;
-			attackbox.transform.position.y = -5;
+			//attackbox.transform.position.y = -10;
+			attackbox.SetActive(false); // THIS WORKS DONT TOUCH
+
 		}
 	}
 
@@ -92,8 +102,9 @@ function Glide(){
 
 function Attack(){
     isAttacking = true;
-	attackbox.transform.position = transform.position;
-	attackbox.transform.position.x += transform.localScale.x;
+    attackbox.SetActive(true);		// THIS WORKS DONT TOUCH
+	//attackbox.transform.position = transform.position;
+	//attackbox.transform.position.x += transform.localScale.x;
 	startTime = Time.time;
 
 }
