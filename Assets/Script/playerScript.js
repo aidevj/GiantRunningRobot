@@ -21,7 +21,7 @@ function Start () {
 
     // Get attackbox from GM??
     attackbox = GameObject.Find("AttackBox(Clone)");
-    attackbox.transform.localPosition = Vector3(1, .5, 0);	// this is making it 1,.5,0 at the GLOBAL position?????
+    attackbox.transform.localPosition = Vector3(1, 0.5, 0);	// this is making it 1,.5,0 at the GLOBAL position?????
     attackbox.SetActive(false);	// begins false
 
     startPosX = transform.position.x;

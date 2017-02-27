@@ -21,26 +21,32 @@ public class GameManager extends MonoBehaviour{
 
 
     function Start () {
-        // Create Game objects and 
-        // Create Heirarchy:
+        // Create Game objects
+
+        // Create Heirarchy----------
         // Player
         //		AttackBox
         //		BoosterGauge
+        // HUD
+        // 		Background
+        //		HPBar
+        //--------------------------
 
         player = Instantiate(playerPrefab, new Vector3(-2.86, 3.55, 0), Quaternion.identity);
 
         attackBox = Instantiate(attackBoxPrefab, transform.position, Quaternion.identity); // instantiate at position of GM-GO
         attackBox.transform.parent = player.transform;
 
-
         boosterGauge = Instantiate(boosterGaugePrefab, transform.position, Quaternion.identity); // instantiate at position of GM-GO
         boosterGauge.transform.parent = player.transform;
 
+        HPBar = Instantiate(HPBarPrefab, transform.position, Quaternion.identity);
+        HPBar.transform.parent = GameObject.Find("HUD").transform; // TO DO: change position locally to HUD, to be done in HUDScript?
 
 
    }
 
     function Update () {
-    	attackBox.transform.position = new Vector3(1, 0.5, 0);
+    	//attackBox.transform.position = Vector3(1, 0.5, 0);
     }
 }
