@@ -2,6 +2,7 @@
 // Rigidbody 2D: Gravity Scale = 0
 public var x_velocity : int = -5;   
 private var r2d;    // Public variable that contains the speed of the enemy
+ private var WIDTH : float;
 
 // Fuction called when the enemy is created
 function Start() {
@@ -9,6 +10,8 @@ function Start() {
     r2d = GetComponent("Rigidbody2D");
     // Add a horizantal speed to the enemy
     r2d.velocity.x = x_velocity;
+
+	WIDTH = GetComponent.<Renderer>().bounds.size.x;
 }
 
 // Function called when the object goes out of the screen
@@ -35,6 +38,7 @@ function OnTriggerEnter2D(obj) {
 
 }
 function OnCollisionEnter2D(col : Collision2D){
-	if(col.gameObject.name == "Player")
-		Debug.Log("COLL");
+	var playerPosX = col.gameObject.transform.position.x; //player's position in the X
+	if(col.gameObject.name == "Player" && playerPosX <= transform.position.x - (WIDTH/2)) //if colliding with the player AND player is to the left of the platform
+		Debug.Log("TAKE DAMAGE");
 }
