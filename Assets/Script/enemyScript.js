@@ -39,8 +39,16 @@ function OnTriggerEnter2D(obj) {
     }*/
 
     // If the enemy collided with the spaceshit
-    if (name == "Player_temp") {
-        // destroy itself (the enemy) to keep things simple
+    //if (name == "Player") {
+    //    Destroy(gameObject);
+        // alert player script of damage, call TakeDamage
+    //}
+
+
+    // collide with attack box
+    if (name == "AttackBox") { 
         Destroy(gameObject);
+        // reset (do not destroy) attackbox
+        obj.transform.position.y = -5;
     }
 }

@@ -1,83 +1,74 @@
 ﻿// Attributes
 private var r2d;      					    // Required: 2D Rigidbody Component
-//private var grounded : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
-//private var jumping : boolean = false;   	// Boolean: Grounded (at ground level and not jumping or flying)
-private var deltaTime : float = 0;			// Float: Time Tracker
-public var jumpPower : float;    			// Integer: Jump force multiplyer
+public var jumpPower : float = 300;			// Integer: Jump force multiplyer
+public var attackbox : GameObject;          // GameObject: Attack box game object
+private var startTime: float;
+private var attackTime : float = 0.5f;
+private var isAttacking: boolean = false;
 
-public var cube : GameObject;               // GameObject: TEMPORARY Attack helper
-
-private var HP : int;     				    // Integer: HP
+// Gauge stuff
+private var HP : int = 100;  				// Integer: HP, default (100%)
 private var BoosterGauge : int;             // Interger: Booster Gauge count
-
-private enum State { Running,Jumping,Gliding,Falling,Damaged,Attacking,Death };
-public var currentState : State;
+private enum State { Running,Jumping,Gliding,Falling,Death };
+private var currentState : State;
+private var startPosX;
 
 /// Start function: Used for initialization
 function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
-    cube= GameObject.CreatePrimitive(PrimitiveType.Cube);
 
+    startPosX = transform.position.x;
     // State defaulted
     currentState = State.Running;
-
     var changedState;
-
 }
 
 /// Update function: Called every frame
 function Update () {
-
-    var lastState = currentState;
+	transform.position.x = startPosX;
+    var lastState = currentState;	// for Debug: prints current state to console upon change
     
-	// check state catches
+	// State catching-------------------------------------------------------
 	if (r2d.velocity.y == 0) {
 		currentState = State.Running;
 	}
-	//else if (currentState == State.Jumping && r2d.velocity.y < 0) {
 	else if (r2d.velocity.y < 0) {
 		currentState = State.Falling;
 	}
 
+	// Action catching-------------------------------------------------------
+
+	if(isAttacking){
+        attackbox.transform.position.y = transform.position.y + 1.0f;
+		if(startTime + attackTime < Time.time){
+		    isAttacking = false;
+			attackbox.transform.position.y = -5;
+		}
+	}
+
     // Check is player is dead
-    if (isDead) die();
+    if (IsDead) Die();
 
-    // Check player is grounded
-    //if (!grounded && r2d.transform.position.y <=2.85f ) {
-    //    grounded = true;
-    //    jumping = false;
-    //}
-
-    // Simulated Gravity
-    //if(!grounded && !jumping){
-    //	transform.position.y -=0.1f;
-    //}
 
     // Input Management------------------------------------------------
-    // JUMP
-    if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){ 
-    	//deltaTime = Time.deltaTime;
+    // Space: Jump
+    if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){
     	currentState = State.Jumping;
-        jump();
+        Jump();
     }
-    //if(Input.GetKeyUp(KeyCode.Space)){
-    //	jumping = false;
-    //}
-    // Attack
-    if (Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift)) {
-        // TO DO: Attack code here.
+    // Left/Right Shift: Attack
+    if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) {
+		Attack();
     }
+    // Hold Space: Glide
     else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
     	currentState = State.Gliding;
-		glide();
+		Glide();
 	}
-    else if(Input.GetKeyDown(KeyCode.LeftShift)){
-		attack();
-    }
     //------------------------------------------------------------------
 
-    // Only print state to console if there is a change
+    // for Debug: Only print state to console if there is a change
     changedState = currentState;
     if (lastState != changedState) {
         Debug.Log("Current State = " + currentState);
@@ -87,55 +78,36 @@ function Update () {
 //*****************************************************************************************
 // Player action functions
 
-function die(){
+function Die(){
     // TO DO: Death sequence code here.
 }
 
-function jump() {
+function Jump() {
    r2d.AddForce(transform.up * jumpPower);
-
-   //if(transform.position.y <=5.5f){
-   //		transform.position.y += 0.5f;
-   //}
-   //grounded = false;
 }
 
-function glide(){
-	//Debug.Log("GLIDING");
-	r2d.AddForce(transform.up * jumpPower/30);
-	//r2d.transform.position.y += 0.2f;
+function Glide(){
+	r2d.AddForce(transform.up * jumpPower / 30);
 }
 
-function attack(){
-    //make enemy take damage when close enough
-    //Debug.Log("Attacked!");
+function Attack(){
+    isAttacking = true;
+	attackbox.transform.position = transform.position;
+	attackbox.transform.position.x += transform.localScale.x;
+	startTime = Time.time;
 
 }
 //*****************************************************************************************
 // Helper functions
 
-function isDead() {
+function IsDead() {
     return HP <= 0 ? true : false;
 }
 
-function GetState() {
-	// JUMPING STATE
-	// PREREQ: 
-	//		Player must be grounded BEFORE able to enter this state <-- will not work, while in jumping they will be set to grounded in teh else (?)
-	/*if (grounded && jumping && r2d.velocity.y > 0) {
-		currentState = State.Jumping;
-	}
-	// GLIDING STATE
-	else if (!grounded) {
-		
-	}
-	else if () {}
-	else {
-		currentState = State.Running;
-	}*/
+/// Function to deplete HP by damage recieved from HUD Script
+/// Then sends new HP count back to HUD
+function TakeDamage(damage : int){
+	HP -= damage;
+	// send new HP back to HUD
 
-	// FALLING STATE CAUGHT
-	if (r2d.velocity.y < 0) {
-		currentState = State.Falling;
-	}
 }
