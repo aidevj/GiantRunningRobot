@@ -1,5 +1,8 @@
 ﻿#pragma strict
 
+/// Public Game Manager class that handles gameplay
+/// Holds global variables like player stats
+/// Handles loading and instantiating prefabs
 public class GameManager extends MonoBehaviour{
     // Prefabs //
     public var playerPrefab : GameObject;
@@ -9,7 +12,7 @@ public class GameManager extends MonoBehaviour{
     public var HPBarText: GameObject;	// directrly alter Text component
 
     // Game Objects //
-    // public to be shared across scripts, but not alterable in Inspector
+    // (public to be shared across scripts, but not alterable in Inspector)
     @HideInInspector
     public var player : GameObject;
     @HideInInspector
@@ -18,6 +21,16 @@ public class GameManager extends MonoBehaviour{
     public var boosterGauge : GameObject;
     @HideInInspector
     public var HPBar : GameObject;
+
+    // Player Variables-------------
+    private var HP_MAX : int = 100;
+    private var HP : int;
+    private var BOOSTER_MAX : float = 100;
+    private var boosterLvl;
+
+    public function GetHP() { return HP; }
+    public function GetBoosterLvl()  { return boosterLvl; }
+
 
 
     function Start () {
@@ -47,6 +60,16 @@ public class GameManager extends MonoBehaviour{
    }
 
     function Update () {
-    	//attackBox.transform.position = Vector3(1, 0.5, 0);
+    	// Debug: print HP to console on change
+
+    	// Update HP bar
+
+    	// Update Booster Gauge
+    }
+
+    // Player functions-----------------
+    public function TakeDamage(damage : int) {
+    	HP -= damage;
     }
 }
+

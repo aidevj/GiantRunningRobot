@@ -1,5 +1,6 @@
 ﻿// Attributes
 private var r2d;      					    // Required: 2D Rigidbody Component
+private var gm : GameManager;				// GameManager object: reference of GameManager script
 public var jumpPower : float = 300;			// Integer: Jump force multiplyer
 
 private var attackbox : GameObject;          // GET FROM GM
@@ -7,9 +8,8 @@ private var startTime: float;
 private var attackTime : float = 0.5f;
 private var isAttacking: boolean = false;
 
-// Gauge stuff
-private var HP : int = 100;  				// Integer: HP, default (100%)
-private var BoosterGauge : int = 100;       // Interger: Booster Gauge count
+//private var HP : int = 100;  				// Integer: HP, default (100%)
+//private var BoosterGauge : int = 100;       // Interger: Booster Gauge count
 private enum State { Running,Jumping,Gliding,Falling,Death };
 private var currentState : State;
 private var startPosX;
@@ -19,9 +19,12 @@ function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
 
+    // Access to game object with GM script
+    gm = GameObject.Find("GameManager").GetComponent(GameManager);
+
     // Get attackbox from GM??
     attackbox = GameObject.Find("AttackBox(Clone)");
-    attackbox.transform.localPosition = Vector3(1, 0.5, 0);	// this is making it 1,.5,0 at the GLOBAL position?????
+    attackbox.transform.localPosition = Vector3(1, 0.5, 0);
     attackbox.SetActive(false);	// begins false
 
     startPosX = transform.position.x;
@@ -108,17 +111,10 @@ function Attack(){
 	startTime = Time.time;
 
 }
+
 //*****************************************************************************************
 // Helper functions
 
 function IsDead() {
-    return HP <= 0 ? true : false;
-}
-
-/// Function to deplete HP by damage recieved from HUD Script
-/// Then sends new HP count back to HUD
-function TakeDamage(damage : int){
-	HP -= damage;
-	// send new HP back to HUD
-
+    return gm.GetHP() <= 0 ? true : false;
 }

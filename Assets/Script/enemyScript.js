@@ -3,10 +3,15 @@ public var x_velocity : int = -5;
 public var amplitude : float = 1;
 public var frequency : float = .7;
 
+private var gm : GameManager;				// GameManager object: reference of GameManager script
+
 // Fuction called when the enemy is created
 function Start() {
     // Get the rigidbody component
     var r2d = GetComponent("Rigidbody2D");
+
+    // Access to game object with GM script
+    gm = GameObject.Find("GameManager").GetComponent(GameManager);
 
     // Add a horizantal speed to the enemy
     r2d.velocity.x = x_velocity;
@@ -31,24 +36,19 @@ function OnTriggerEnter2D(obj) {
     // name of the obejct that collided with the enemy
     var name = obj.gameObject.name;
 
-    // If the enemy collided with a bullet
-    /*if (name == "bullet(Clone)") {
-        // destroy itself (the enemy) and bullet
+    // Collision with Player
+    if (name == "Player(Clone)") {
         Destroy(gameObject);
-        Destroy(obj.gameObject);
-    }*/
-
-    // If the enemy collided with the spaceshit
-    //if (name == "Player") {
-    //    Destroy(gameObject);
         // alert player script of damage, call TakeDamage
-    //}
+        gm.TakeDamage(5);
+        //Destroy(obj.gameObject); // dont' do this its just a reference code
+    }
 
 
-    // collide with attack box
-    if (name == "AttackBox") { 
+    // Collision with active AttackBox
+    if (name == "AttackBox(Clone)") { 
         Destroy(gameObject);
-        // reset (do not destroy) attackbox
-        obj.transform.position.y = -5;
+        // Reset (do not destroy) attackbox
+        //obj.SetActive(false);	/////////////////
     }
 }
