@@ -20,12 +20,10 @@ function Start () {
 
     // call the 'addEnemy' function in 0 seconds
     // then every 'spawnTime' seconds
-    for (var i = 0; i < Random.Range(0,2); i++) {
-        InvokeRepeating("addEnemy", Random.Range(0,4), spawnTime);
-    }   
-    for (var j = 0; j < Random.Range(0,2); j++) {
-        InvokeRepeating("addPlatform", Random.Range(0,4), spawnTime);
-    }   
+    InvokeRepeating("addEnemy", Random.Range(0,4), spawnTime);
+      
+    InvokeRepeating("addPlatform", Random.Range(0,4), spawnTime);
+      
 }
 
 // new function to spawn an enemy at random heights
@@ -42,6 +40,6 @@ function addPlatform() {
     // randomly pick a point within the spawn object
     var spawnPoint = Vector3(transform.position.x, Random.Range(y1, y2), Z_LOC);
 
-    // create an enemy at the spawnPoint position
-    Instantiate(platform, spawnPoint, Quaternion.Euler(Vector3(-90, 0, 0)));
+    // create a platform at the spawnPoint position
+    Instantiate(platform, spawnPoint, Quaternion.Euler(Vector3(0, 0, 0)));
 }
