@@ -1,4 +1,5 @@
 ﻿#pragma strict
+<<<<<<< HEAD
 private var depletion: float; //value by how much the guage will deplete
 private var maxSize : float; //the size of a Full Bar
 private var player;
@@ -22,4 +23,13 @@ function Update () {
 	else if(transform.localScale.z <= maxSize){
 		transform.localScale.z += depletion*2 ;
 	}
+=======
+
+function Start () {
+	
+}
+
+function Update () {
+	
+>>>>>>> origin/PlatformUpdate
 }
