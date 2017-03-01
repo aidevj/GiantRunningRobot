@@ -29,11 +29,7 @@ function OnBecameInvisible(){
 function Update(){ 
     r2d.velocity.x = x_velocity;
 
-<<<<<<< HEAD
     if(player.transform.position.y - (playerHeight/2) <= transform.position.y + (HEIGHT/2.5)){ //the HEIGHT/2.5 = half of the total Height it the .5 allowing a buffer
-=======
-    if(player.transform.position.y - (playerHeight/2) <= transform.position.y + (HEIGHT/2.1)){ 
->>>>>>> origin/PlatformUpdate
 		GetComponent(EdgeCollider2D).enabled = false; //disables the collider so that the player can phase through the bottom of the platform
     }
     else{
@@ -57,17 +53,4 @@ function OnTriggerEnter2D(obj) {
 		Debug.Log("TAKE DAMAGE");
     }
 
-<<<<<<< HEAD
-=======
-}
-//////////////////////////////POTENTIALLY UNNECESSARY
-function OnCollisionEnter2D(col : Collision2D){
-	var playerPosX = col.gameObject.transform.position.x; //player's position in the X
-	if(col.gameObject.name == "Player" && playerPosX <= transform.position.x - (WIDTH/2))  //if colliding with the player AND player is to the left of the platform
-	{	
-		//GetComponent.<BoxCollider2D>().enabled = false;
-		//Debug.Log("TAKE DAMAGE");
-	}
-
->>>>>>> origin/PlatformUpdate
 }

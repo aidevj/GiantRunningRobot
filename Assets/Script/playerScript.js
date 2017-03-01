@@ -10,11 +10,7 @@ private var isAttacking: boolean = false;
 private var HP : int = 100;  				// Integer: HP, default (100%)
 private var BoosterGauge : int;             // Interger: Booster Gauge count
 private enum State { Running,Jumping,Gliding,Falling,Death };
-<<<<<<< HEAD
 public var currentState : State;
-=======
-private var currentState : State;
->>>>>>> origin/PlatformUpdate
 private var startPosX;
 
 /// Start function: Used for initialization
@@ -32,7 +28,6 @@ function Start () {
 function Update () {
 	transform.position.x = startPosX;
     var lastState = currentState;	// for Debug: prints current state to console upon change
-<<<<<<< HEAD
 
 
 	// State catching-------------------------------------------------------
@@ -40,14 +35,6 @@ function Update () {
 		currentState = State.Running;
 	}
 	else if (r2d.velocity.y < -0.02) {
-=======
-    
-	// State catching-------------------------------------------------------
-	if (r2d.velocity.y == 0) {
-		currentState = State.Running;
-	}
-	else if (r2d.velocity.y < 0) {
->>>>>>> origin/PlatformUpdate
 		currentState = State.Falling;
 	}
 
@@ -126,8 +113,4 @@ function TakeDamage(damage : int){
 	HP -= damage;
 	// send new HP back to HUD
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/PlatformUpdate
