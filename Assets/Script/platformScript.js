@@ -2,6 +2,10 @@
 // Rigidbody 2D: Gravity Scale = 0
 public var x_velocity : int = -5;   
 private var r2d;    // Public variable that contains the speed of the enemy
+ private var HEIGHT : float;
+ private var WIDTH : float;
+ private var player;
+ private var playerHeight;
 
 // Fuction called when the enemy is created
 function Start() {
@@ -9,6 +13,11 @@ function Start() {
     r2d = GetComponent("Rigidbody2D");
     // Add a horizantal speed to the enemy
     r2d.velocity.x = x_velocity;
+    player = GameObject.Find("Player(Clone)");
+
+	WIDTH = GetComponent(Renderer).bounds.size.x;
+	HEIGHT = GetComponent(Renderer).bounds.size.y;
+	playerHeight = player.GetComponent(Renderer).bounds.size.y;
 }
 
 // Function called when the object goes out of the screen
@@ -19,6 +28,13 @@ function OnBecameInvisible(){
 // Update Function
 function Update(){ 
     r2d.velocity.x = x_velocity;
+
+    if(player.transform.position.y - (playerHeight/2) <= transform.position.y + (HEIGHT/2.5)){ //the HEIGHT/2.5 = half of the total Height it the .5 allowing a buffer
+		GetComponent(EdgeCollider2D).enabled = false; //disables the collider so that the player can phase through the bottom of the platform
+    }
+    else{
+		GetComponent(EdgeCollider2D).enabled = true; //enables the collider if the player is above the platform
+    }
 }
 
 // Function called when the enemy collides with another object
@@ -32,9 +48,9 @@ function OnTriggerEnter2D(obj) {
         // destroy itself (the enemy) to keep things simple
         Destroy(gameObject);
     }*/
+    if(obj.gameObject.transform.position.x <= transform.position.x - (WIDTH/2)){ //if player is to the left of platform
 
-}
-function OnCollisionEnter2D(col : Collision2D){
-	if(col.gameObject.name == "Player")
-		Debug.Log("COLL");
+		Debug.Log("TAKE DAMAGE");
+    }
+
 }

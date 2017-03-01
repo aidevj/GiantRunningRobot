@@ -14,6 +14,9 @@ private enum State { Running,Jumping,Gliding,Falling,Death };
 private var currentState : State;
 private var startPosX;
 
+// Get Method for other scripts to use
+function GetState() { return currentState; }
+
 /// Start function: Used for initialization
 function Start () {
     // Get Component of Rigidbody
@@ -38,15 +41,15 @@ function Update () {
 	transform.position.x = startPosX;
     var lastState = currentState;	// for Debug: prints current state to console upon change
 
-    //Debug.Log("HP (from player update): " + gm.GetHP());
+    //Debug.Log( gm.GetBooster());
     // Check is player is dead
     if (IsDead()) Die();
 
 	// State catching-------------------------------------------------------
-	if (r2d.velocity.y == 0) {
+	if (r2d.velocity.y <= 0 && r2d.velocity.y >=-0.02) { //range set to account for minimal velocity while on platform
 		currentState = State.Running;
 	}
-	else if (r2d.velocity.y < 0) {
+	else if (r2d.velocity.y < -0.02) {
 		currentState = State.Falling;
 	}
 
@@ -75,7 +78,7 @@ function Update () {
 		Attack();
     }
     // Hold Space: Glide
-    else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
+    else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping && gm.GetBooster() > 0 && gm.GetRecovering() == false){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
     	currentState = State.Gliding;
 		Glide();
 	}
@@ -93,7 +96,8 @@ function Update () {
 
 function Die(){
     // TO DO: Death sequence code here.
-    Debug.Log("Die function called in playerScript");
+    //Debug.Log("Die function called in playerScript");
+    currentState = State.Death;
 }
 
 function Jump() {

@@ -24,20 +24,24 @@ public class GameManager extends MonoBehaviour{
     public var HPBar : GameObject;
 
     // Player Variables //
-    private var HP_MAX : float = 100;
-    private var HP : float;
-    private var BOOSTER_MAX : float = 100;
-    private var boosterLvl;
+    var HP_MAX : float = 100;
+    var HP : float;
+    var BOOSTER_MAX : float = 100;
+    var playerState;
 
     public function GetHP() { return HP; }
-    public function GetBoosterLvl()  { return boosterLvl; }
+    public function GetBooster()  { return boosterGauge.transform.localScale.z; }
+    public function GetRecovering() { return recovering; }
 
     // HUD Variables //
     var initialHPBarWidth : float;
     var initialBooBarWidth : float;
     var currentHPBarWidth : float;
     var currentBooBarWidth : float;
-    var HPBarText : UI.Text;
+    var HPBarText : UI.Text;			// Text component of HPBarTextObj
+    var booster_affector : float;		// Number count to adjust booster gauge (+/-)
+    var recovering : boolean;
+
 
     // GAME STATES //
     @HideInInspector
@@ -58,27 +62,49 @@ public class GameManager extends MonoBehaviour{
 
         player = Instantiate(playerPrefab, new Vector3(-2.86, 3.55, 0), Quaternion.identity);
 
-        attackBox = Instantiate(attackBoxPrefab, transform.position, Quaternion.identity); // instantiate at position of GM-GO
-        attackBox.transform.parent = player.transform;
-
-        boosterGauge = Instantiate(boosterGaugePrefab, transform.position, Quaternion.identity); // instantiate at position of GM-GO
-        boosterGauge.transform.parent = player.transform;
+        attackBox = Instantiate(attackBoxPrefab, transform.position, Quaternion.identity); // instantiate at local position of GM-GO (transform.position)
+        attackBox.transform.parent = player.transform;	// append as child to player object
 
         HPBar = Instantiate(HPBarPrefab, transform.position, Quaternion.Euler(Vector3(-90,0,0)));
-        HPBar.transform.parent = GameObject.Find("HUD").transform; // TO DO: change position locally to HUD, to be done in HUDScript?
-        HPBar.transform.localPosition = Vector3(1.12, 2.21, 1.16);
+        HPBar.transform.parent = GameObject.Find("HUD").transform;
+        HPBar.transform.localPosition = Vector3(1.12, 2.21, 1.16);	// apply position locally to HUD
 
         HPBarText = HPBarTextObj.GetComponent("Text");
+
+      	boosterGauge = Instantiate(boosterGaugePrefab, transform.position, Quaternion.Euler(Vector3(-90,0,0)));
+        boosterGauge.transform.parent = player.transform;
+        boosterGauge.transform.localPosition = Vector3(-0.79,0.01,-0.96);
+        recovering = false;
 
         // Set starting values
         HP = HP_MAX;
         initialHPBarWidth = HPBar.transform.localScale.x;
-        Debug.Log("initialHPBarWidth=" + initialHPBarWidth);
-        initialBooBarWidth = boosterGauge.transform.localScale.x;
 
+        //boosterLvl = BOOSTER_MAX;
+        initialBooBarWidth = boosterGauge.transform.localScale.z;
+
+        booster_affector = boosterGauge.transform.localScale.z / 100;		// an arbitrary fraction of the gauge
+        //var playerScript = player.GetComponent("playerScript"); // this specifically doesn't work
+        //Debug.Log("Player state=" + boosterGauge.transform.parent.GetComponent(playerScript).GetState());
    }
 
     function Update () {
+    	// Actively update booster gauge
+    	playerState = player.GetComponent(playerScript).GetState();
+    	//Debug.Log(playerState);
+    	if (playerState.ToString() == "Gliding" && boosterGauge.transform.localScale.z > 0 ) {
+    		boosterGauge.transform.localScale.z -= booster_affector;
+    		recovering = false;
+    	}
+    	else {		// as of now the booster bar will grow forever
+    		boosterGauge.transform.localScale.z += booster_affector * 2f;
+			recovering = true;
+    	}
+    	//else if(boosterGauge.transform.localScale.z <= initialBooBarWidth){		// deactivates gliding?
+		//	boosterGauge.transform.localScale.z += booster_affector * 2 ;
+		//	recovering = true;
+		//}
+
     }
 
     // Player functions-----------------
@@ -90,6 +116,11 @@ public class GameManager extends MonoBehaviour{
     	// adjust HP bar & text
     	HPBar.transform.localScale.x = initialHPBarWidth * ( HP / HP_MAX );
   		HPBarText.text = HP + "%";
+
+  		if (HP <= 0) {
+  			HPBar.transform.localScale.x = 0f;
+  		}
     }
+
 }
 
