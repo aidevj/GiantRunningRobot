@@ -44,7 +44,6 @@ function OnTriggerEnter2D(obj) {
         //Destroy(obj.gameObject); // dont' do this its just a reference code
     }
 
-
     // Collision with active AttackBox
     if (name == "AttackBox(Clone)") { 
         Destroy(gameObject);

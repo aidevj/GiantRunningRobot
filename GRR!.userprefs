@@ -1,17 +1,17 @@
-﻿<Properties StartupItem="Assembly-UnityScript.unityproj">
+﻿<Properties StartupItem="Assembly-UnityScript.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="D:\Profiles\itm5305\Downloads\Melendez_FinalProjectITWORKS\Melendez_FinalProject\Assets\Scripts\Seeker.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\enemyScript.js">
     <Files>
-      <File FileName="Assets\Script\playerScript.js" Line="25" Column="38" />
-      <File FileName="Assets\Script\HUDScript.js" Line="3" Column="3" />
-      <File FileName="Assets\Script\GameManager.js" Line="50" Column="62" />
+      <File FileName="Assets\Script\playerScript.js" Line="22" Column="5" />
+      <File FileName="Assets\Script\HUDScript.js" Line="4" Column="12" />
       <File FileName="Assets\Script\backgroundScript.js" Line="1" Column="1" />
       <File FileName="Assets\Script\MenuScript.js" Line="1" Column="1" />
       <File FileName="Assets\Script\platformScript.js" Line="1" Column="1" />
       <File FileName="Assets\Script\SpawnScript.js" Line="1" Column="1" />
       <File FileName="Assets\Script\BoosterGaugeScript.js" Line="1" Column="1" />
-      <File FileName="D:\Profiles\itm5305\Downloads\Melendez_FinalProjectITWORKS\Melendez_FinalProject\Assets\Scripts\GameManager.cs" Line="15" Column="17" NotebookId="1" />
-      <File FileName="D:\Profiles\itm5305\Downloads\Melendez_FinalProjectITWORKS\Melendez_FinalProject\Assets\Scripts\Seeker.cs" Line="17" Column="36" NotebookId="1" />
+      <File FileName="Assets\Script\enemyScript.js" Line="31" Column="35" />
+      <File FileName="C:\Users\Isis\Downloads\Melendez_FinalProjectExe\Melendez_FinalProject\GameManager.cs" Line="49" Column="16" NotebookId="1" />
+      <File FileName="Assets\Script\GameManager.js" Line="17" Column="36" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

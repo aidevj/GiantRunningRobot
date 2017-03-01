@@ -37,7 +37,11 @@ function Start () {
 function Update () {
 	transform.position.x = startPosX;
     var lastState = currentState;	// for Debug: prints current state to console upon change
-    
+
+    //Debug.Log("HP (from player update): " + gm.GetHP());
+    // Check is player is dead
+    if (IsDead()) Die();
+
 	// State catching-------------------------------------------------------
 	if (r2d.velocity.y == 0) {
 		currentState = State.Running;
@@ -59,10 +63,6 @@ function Update () {
 
 		}
 	}
-
-    // Check is player is dead
-    if (IsDead) Die();
-
 
     // Input Management------------------------------------------------
     // Space: Jump
@@ -93,6 +93,7 @@ function Update () {
 
 function Die(){
     // TO DO: Death sequence code here.
+    Debug.Log("Die function called in playerScript");
 }
 
 function Jump() {
@@ -116,5 +117,5 @@ function Attack(){
 // Helper functions
 
 function IsDead() {
-    return gm.GetHP() <= 0 ? true : false;
+    return gm.GetHP() <= 0;
 }

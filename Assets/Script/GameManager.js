@@ -22,7 +22,7 @@ public class GameManager extends MonoBehaviour{
     @HideInInspector
     public var HPBar : GameObject;
 
-    // Player Variables-------------
+    // Player Variables //
     private var HP_MAX : int = 100;
     private var HP : int;
     private var BOOSTER_MAX : float = 100;
@@ -31,6 +31,12 @@ public class GameManager extends MonoBehaviour{
     public function GetHP() { return HP; }
     public function GetBoosterLvl()  { return boosterLvl; }
 
+    // HUD Variables //
+
+
+    // GAME STATES //
+    @HideInInspector
+    public enum GameState { Active, GameOver, Pause };
 
 
     function Start () {
@@ -53,16 +59,18 @@ public class GameManager extends MonoBehaviour{
         boosterGauge = Instantiate(boosterGaugePrefab, transform.position, Quaternion.identity); // instantiate at position of GM-GO
         boosterGauge.transform.parent = player.transform;
 
-        HPBar = Instantiate(HPBarPrefab, transform.position, Quaternion.identity);
+        HPBar = Instantiate(HPBarPrefab, transform.position, Quaternion.Euler(Vector3(-90,0,0)));
         HPBar.transform.parent = GameObject.Find("HUD").transform; // TO DO: change position locally to HUD, to be done in HUDScript?
+        HPBar.transform.localPosition = Vector3(1.12,2.21,1.16);
 
+        // Set starting values
+        HP = HP_MAX;
 
    }
 
     function Update () {
-    	// Debug: print HP to console on change
-
     	// Update HP bar
+
 
     	// Update Booster Gauge
     }
@@ -70,6 +78,7 @@ public class GameManager extends MonoBehaviour{
     // Player functions-----------------
     public function TakeDamage(damage : int) {
     	HP -= damage;
+    	Debug.Log("HP=" + GetHP());
     }
 }
 
