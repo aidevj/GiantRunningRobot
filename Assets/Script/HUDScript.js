@@ -7,10 +7,6 @@ private var player;
 private var playerScript;		// Reference to playerScript component
 private var HPnumtext;
 
-// HP BAR ATTRIBUTES
-private var initialSizeHP : int;				// Used for size scaling
-
-// BOOSTER GAUGE ATTRIBUTES
 
 function Start () {
 	// Store object's script components in a variable to be used
@@ -27,7 +23,6 @@ function Update () {
 	// change text to show HP number on bar
 	//txt.text="Score : " + currentscore;
 	//HPnumtext.text = player.HP;
-
 
 	// Check State of player--if gliding, deplete Player's BoosterGauge count gradually
 

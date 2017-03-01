@@ -1,4 +1,5 @@
 ﻿#pragma strict
+import UnityEngine.UI;
 
 /// Public Game Manager class that handles gameplay
 /// Holds global variables like player stats
@@ -9,9 +10,9 @@ public class GameManager extends MonoBehaviour{
     public var attackBoxPrefab : GameObject;
     public var boosterGaugePrefab : GameObject;
     public var HPBarPrefab : GameObject;
-    public var HPBarText: GameObject;	// directrly alter Text component
 
     // Game Objects //
+    public var HPBarTextObj: GameObject;	// directrly alter Text component
     // (public to be shared across scripts, but not alterable in Inspector)
     @HideInInspector
     public var player : GameObject;
@@ -23,8 +24,8 @@ public class GameManager extends MonoBehaviour{
     public var HPBar : GameObject;
 
     // Player Variables //
-    private var HP_MAX : int = 100;
-    private var HP : int;
+    private var HP_MAX : float = 100;
+    private var HP : float;
     private var BOOSTER_MAX : float = 100;
     private var boosterLvl;
 
@@ -32,7 +33,11 @@ public class GameManager extends MonoBehaviour{
     public function GetBoosterLvl()  { return boosterLvl; }
 
     // HUD Variables //
-
+    var initialHPBarWidth : float;
+    var initialBooBarWidth : float;
+    var currentHPBarWidth : float;
+    var currentBooBarWidth : float;
+    var HPBarText : UI.Text;
 
     // GAME STATES //
     @HideInInspector
@@ -61,24 +66,30 @@ public class GameManager extends MonoBehaviour{
 
         HPBar = Instantiate(HPBarPrefab, transform.position, Quaternion.Euler(Vector3(-90,0,0)));
         HPBar.transform.parent = GameObject.Find("HUD").transform; // TO DO: change position locally to HUD, to be done in HUDScript?
-        HPBar.transform.localPosition = Vector3(1.12,2.21,1.16);
+        HPBar.transform.localPosition = Vector3(1.12, 2.21, 1.16);
+
+        HPBarText = HPBarTextObj.GetComponent("Text");
 
         // Set starting values
         HP = HP_MAX;
+        initialHPBarWidth = HPBar.transform.localScale.x;
+        Debug.Log("initialHPBarWidth=" + initialHPBarWidth);
+        initialBooBarWidth = boosterGauge.transform.localScale.x;
 
    }
 
     function Update () {
-    	// Update HP bar
-
-
-    	// Update Booster Gauge
     }
 
     // Player functions-----------------
     public function TakeDamage(damage : int) {
+    	// deplete HP
     	HP -= damage;
     	Debug.Log("HP=" + GetHP());
+
+    	// adjust HP bar & text
+    	HPBar.transform.localScale.x = initialHPBarWidth * ( HP / HP_MAX );
+  		HPBarText.text = HP + "%";
     }
 }
 
