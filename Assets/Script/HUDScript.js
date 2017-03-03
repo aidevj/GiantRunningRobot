@@ -1,18 +1,12 @@
 ﻿#pragma strict
 import UnityEngine.UI;
-//public var PlayerObj : GameObject;			// GameObject: Player object from which to refer to HP and BoosterGauge
-public var HPBarObj : GameObject;				// Visible HP Bar object
-//public var BoosterGaugeObj : GameObject;		// Visible Booster Gauge object
-//public var HPNumTextObj : GameObject;
 
+private var gm : GameManager;					// GameManager object: reference of GameManager script
+public var HPBarObj : GameObject;			// Visible HP Bar object
 private var player;
 private var playerScript;		// Reference to playerScript component
 private var HPnumtext;
 
-// HP BAR ATTRIBUTES
-private var initialSizeHP : int;				// Used for size scaling
-
-// BOOSTER GAUGE ATTRIBUTES
 
 function Start () {
 	// Store object's script components in a variable to be used
@@ -29,7 +23,6 @@ function Update () {
 	// change text to show HP number on bar
 	//txt.text="Score : " + currentscore;
 	//HPnumtext.text = player.HP;
-
 
 	// Check State of player--if gliding, deplete Player's BoosterGauge count gradually
 

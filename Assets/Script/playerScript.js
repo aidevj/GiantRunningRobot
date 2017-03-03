@@ -1,22 +1,34 @@
 ﻿// Attributes
 private var r2d;      					    // Required: 2D Rigidbody Component
+private var gm : GameManager;				// GameManager object: reference of GameManager script
 public var jumpPower : float = 300;			// Integer: Jump force multiplyer
-public var attackbox : GameObject;          // GameObject: Attack box game object
+
+private var attackbox : GameObject;          // GET FROM GM
 private var startTime: float;
 private var attackTime : float = 0.5f;
 private var isAttacking: boolean = false;
 
-// Gauge stuff
-private var HP : int = 100;  				// Integer: HP, default (100%)
-private var BoosterGauge : int;             // Interger: Booster Gauge count
+//private var HP : int = 100;  				// Integer: HP, default (100%)
+//private var BoosterGauge : int = 100;       // Interger: Booster Gauge count
 private enum State { Running,Jumping,Gliding,Falling,Death };
 private var currentState : State;
 private var startPosX;
+
+// Get Method for other scripts to use
+function GetState() { return currentState; }
 
 /// Start function: Used for initialization
 function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
+
+    // Access to game object with GM script
+    gm = GameObject.Find("GameManager").GetComponent(GameManager);
+
+    // Get attackbox from GM??
+    attackbox = GameObject.Find("AttackBox(Clone)");
+    attackbox.transform.localPosition = Vector3(1, 0.5, 0);
+    attackbox.SetActive(false);	// begins false
 
     startPosX = transform.position.x;
     // State defaulted
@@ -28,28 +40,32 @@ function Start () {
 function Update () {
 	transform.position.x = startPosX;
     var lastState = currentState;	// for Debug: prints current state to console upon change
-    
+
+    //Debug.Log( gm.GetBooster());
+    // Check is player is dead
+    if (IsDead()) Die();
+
 	// State catching-------------------------------------------------------
-	if (r2d.velocity.y == 0) {
+	if (r2d.velocity.y <= 0 && r2d.velocity.y >=-0.02) { //range set to account for minimal velocity while on platform
 		currentState = State.Running;
 	}
-	else if (r2d.velocity.y < 0) {
+	else if (r2d.velocity.y < -0.02) {
 		currentState = State.Falling;
 	}
 
 	// Action catching-------------------------------------------------------
 
 	if(isAttacking){
-        attackbox.transform.position.y = transform.position.y + 1.0f;
+        //attackbox.transform.position.y = 1.0f;
+        //attackbox.SetActive(true);
+
 		if(startTime + attackTime < Time.time){
 		    isAttacking = false;
-			attackbox.transform.position.y = -5;
+			//attackbox.transform.position.y = -10;
+			attackbox.SetActive(false); // THIS WORKS DONT TOUCH
+
 		}
 	}
-
-    // Check is player is dead
-    if (IsDead) Die();
-
 
     // Input Management------------------------------------------------
     // Space: Jump
@@ -62,7 +78,7 @@ function Update () {
 		Attack();
     }
     // Hold Space: Glide
-    else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
+    else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping && gm.GetBooster() > 0 && gm.GetRecovering() == false){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
     	currentState = State.Gliding;
 		Glide();
 	}
@@ -80,6 +96,8 @@ function Update () {
 
 function Die(){
     // TO DO: Death sequence code here.
+    //Debug.Log("Die function called in playerScript");
+    currentState = State.Death;
 }
 
 function Jump() {
@@ -92,22 +110,16 @@ function Glide(){
 
 function Attack(){
     isAttacking = true;
-	attackbox.transform.position = transform.position;
-	attackbox.transform.position.x += transform.localScale.x;
+    attackbox.SetActive(true);		// THIS WORKS DONT TOUCH
+	//attackbox.transform.position = transform.position;
+	//attackbox.transform.position.x += transform.localScale.x;
 	startTime = Time.time;
 
 }
+
 //*****************************************************************************************
 // Helper functions
 
 function IsDead() {
-    return HP <= 0 ? true : false;
-}
-
-/// Function to deplete HP by damage recieved from HUD Script
-/// Then sends new HP count back to HUD
-function TakeDamage(damage : int){
-	HP -= damage;
-	// send new HP back to HUD
-
+    return gm.GetHP() <= 0;
 }

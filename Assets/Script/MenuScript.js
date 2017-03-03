@@ -2,7 +2,6 @@
 import UnityEngine.SceneManagement;
 
 function Start () {
-	
 }
 
 /// Change Scene function: called through MenuManager in Button component

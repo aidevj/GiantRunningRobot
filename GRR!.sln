@@ -1,7 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{21632AC1-1B1F-D54E-2D21-5E5E58E6EBAF}") = "GRR!", "Assembly-UnityScript.unityproj", "{146DE9EC-1F27-D9FD-E701-E1D2AC902F53}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRR!", "Assembly-UnityScript.unityproj", "{146DE9EC-1F27-D9FD-E701-E1D2AC902F53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
