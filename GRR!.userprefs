@@ -1,16 +1,16 @@
 ﻿<Properties StartupItem="Assembly-UnityScript.unityproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\GameManager.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\platformScript.js">
     <Files>
       <File FileName="Assets\Script\HUDScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\playerScript.js" Line="105" Column="2" />
+      <File FileName="Assets\Script\playerScript.js" Line="41" Column="1" />
       <File FileName="Assets\Script\backgroundScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\MenuScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\platformScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\MenuScript.js" Line="25" Column="31" />
+      <File FileName="Assets\Script\platformScript.js" Line="35" Column="48" />
       <File FileName="Assets\Script\BoosterGaugeScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\SpawnScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\enemyScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\GameManager.js" Line="103" Column="52" NotebookId="1" />
+      <File FileName="Assets\Script\SpawnScript.js" Line="8" Column="46" />
+      <File FileName="Assets\Script\enemyScript.js" Line="12" Column="1" />
+      <File FileName="Assets\Script\GameManager.js" Line="49" Column="12" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -6,6 +6,7 @@ private var r2d;    // Public variable that contains the speed of the enemy
  private var WIDTH : float;
  private var player;
  private var playerHeight;
+private var gm : GameManager;	
 
 // Fuction called when the enemy is created
 function Start() {
@@ -14,6 +15,9 @@ function Start() {
     // Add a horizantal speed to the enemy
     r2d.velocity.x = x_velocity;
     player = GameObject.Find("Player(Clone)");
+
+    // Access to game object with GM script
+    gm = GameObject.Find("GameManager").GetComponent(GameManager);
 
 	WIDTH = GetComponent(Renderer).bounds.size.x;
 	HEIGHT = GetComponent(Renderer).bounds.size.y;
@@ -27,13 +31,16 @@ function OnBecameInvisible(){
 
 // Update Function
 function Update(){ 
-    r2d.velocity.x = x_velocity;
 
-    if(player.transform.position.y - (playerHeight/2) <= transform.position.y + (HEIGHT/2.5)){ //the HEIGHT/2.5 = half of the total Height it the .5 allowing a buffer
-		GetComponent(EdgeCollider2D).enabled = false; //disables the collider so that the player can phase through the bottom of the platform
-    }
-    else{
-		GetComponent(EdgeCollider2D).enabled = true; //enables the collider if the player is above the platform
+    if(gm.currentState == gm.GameState.Active){
+	    r2d.velocity.x = x_velocity;
+
+	    if(player.transform.position.y - (playerHeight/2) <= transform.position.y + (HEIGHT/2.5)){ //the HEIGHT/2.5 = half of the total Height it the .5 allowing a buffer
+			GetComponent(EdgeCollider2D).enabled = false; //disables the collider so that the player can phase through the bottom of the platform
+	    }
+	    else{
+			GetComponent(EdgeCollider2D).enabled = true; //enables the collider if the player is above the platform
+	    }
     }
 }
 
@@ -50,7 +57,7 @@ function OnTriggerEnter2D(obj) {
     }*/
     if(obj.gameObject.transform.position.x <= transform.position.x - (WIDTH/2)){ //if player is to the left of platform
 
-		Debug.Log("TAKE DAMAGE");
+        gm.TakeDamage(5);
     }
 
 }

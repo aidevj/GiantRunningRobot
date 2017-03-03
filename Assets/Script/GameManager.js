@@ -45,7 +45,8 @@ public class GameManager extends MonoBehaviour{
 
     // GAME STATES //
     @HideInInspector
-    public enum GameState { Active, GameOver, Pause };
+    public enum GameState { Active, GameOver, Paused };
+    public var currentState : GameState;
 
 
     function Start () {
@@ -86,28 +87,51 @@ public class GameManager extends MonoBehaviour{
         booster_affector = boosterGauge.transform.localScale.z / 100;		// an arbitrary fraction of the gauge
         //var playerScript = player.GetComponent("playerScript"); // this specifically doesn't work
         //Debug.Log("Player state=" + boosterGauge.transform.parent.GetComponent(playerScript).GetState());
+
+        currentState = GameState.Active;
    }
 
     function Update () {
-    	// Actively update booster gauge
-    	playerState = player.GetComponent(playerScript).GetState();
-    	//Debug.Log(playerState);
-    	if (playerState.ToString() == "Gliding" && boosterGauge.transform.localScale.z > 0 ) {
-    		boosterGauge.transform.localScale.z -= booster_affector;
-    		recovering = false;
-    	}
-    	else {		// as of now the booster bar will grow forever
-    		boosterGauge.transform.localScale.z += booster_affector * 2f;
-			recovering = true;
-    	}
-    	//else if(boosterGauge.transform.localScale.z <= initialBooBarWidth){		// deactivates gliding?
-		//	boosterGauge.transform.localScale.z += booster_affector * 2 ;
-		//	recovering = true;
-		//}
 
-    }
+    //Key Press : P is used to Pause
+	if (Input.GetKeyDown(KeyCode.P)){
+    	if(currentState == GameState.Active){	
+    		currentState = GameState.Paused;
+    		GameObject.Find("MenuManager").GetComponent(MenuScript).AddScene(2);
+    	}
+    	else{
+    		GameObject.Find("MenuManager").GetComponent(MenuScript).UnloadScene(2);
+    		currentState = GameState.Active;
+    	}
+	}
 
-    // Player functions-----------------
+    if(currentState == GameState.Active){
+    		// Actively update booster gauge
+	    	playerState = player.GetComponent(playerScript).GetState();
+	    	//Debug.Log(playerState);
+	    	if (playerState.ToString() == "Gliding" && boosterGauge.transform.localScale.z > 0 ) {
+	    		boosterGauge.transform.localScale.z -= booster_affector;
+	    		recovering = false;
+	    	}
+	    	//else {		// as of now the booster bar will grow forever
+	    	//	boosterGauge.transform.localScale.z += booster_affector * 2f;
+			//	recovering = true;
+	    	//}
+
+	    	else if(boosterGauge.transform.localScale.z <= initialBooBarWidth){		// deactivates gliding?
+				boosterGauge.transform.localScale.z += booster_affector * 2 ;
+				recovering = true;
+			}
+
+			if(boosterGauge.transform.localScale.z >= initialBooBarWidth){
+	    		recovering = false;
+			}
+
+
+	    }
+	    }
+
+	    // Player functions-----------------
     public function TakeDamage(damage : int) {
     	// deplete HP
     	HP -= damage;
@@ -121,6 +145,8 @@ public class GameManager extends MonoBehaviour{
   			HPBar.transform.localScale.x = 0f;
   		}
     }
+
+    
 
 }
 

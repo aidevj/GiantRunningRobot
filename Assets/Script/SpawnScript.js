@@ -18,6 +18,9 @@ function Start () {
     y1 = transform.position.y - render.bounds.size.y/2;
     y2 = transform.position.y + render.bounds.size.y/2;
 
+    //
+
+    // Random Spawning----------------------------------------------------
     // call the 'addEnemy' function in 0 seconds
     // then every 'spawnTime' seconds
     for (var i = 0; i < Random.Range(1,3); i++) {

@@ -38,57 +38,63 @@ function Start () {
 
 /// Update function: Called every frame
 function Update () {
-	transform.position.x = startPosX;
-    var lastState = currentState;	// for Debug: prints current state to console upon change
 
-    //Debug.Log( gm.GetBooster());
-    // Check is player is dead
-    if (IsDead()) Die();
+    if(gm.currentState == gm.GameState.Active){
+		transform.position.x = startPosX;
+	    var lastState = currentState;	// for Debug: prints current state to console upon change
 
-	// State catching-------------------------------------------------------
-	if (r2d.velocity.y <= 0 && r2d.velocity.y >=-0.02) { //range set to account for minimal velocity while on platform
-		currentState = State.Running;
-	}
-	else if (r2d.velocity.y < -0.02) {
-		currentState = State.Falling;
-	}
+	    //Debug.Log( gm.GetBooster());
+	    // Check is player is dead
+	    if (IsDead()) Die();
 
-	// Action catching-------------------------------------------------------
-
-	if(isAttacking){
-        //attackbox.transform.position.y = 1.0f;
-        //attackbox.SetActive(true);
-
-		if(startTime + attackTime < Time.time){
-		    isAttacking = false;
-			//attackbox.transform.position.y = -10;
-			attackbox.SetActive(false); // THIS WORKS DONT TOUCH
-
+		// State catching-------------------------------------------------------
+		if (r2d.velocity.y <= 0 && r2d.velocity.y >=-0.02) { //range set to account for minimal velocity while on platform
+			currentState = State.Running;
 		}
-	}
+		else if (r2d.velocity.y < -0.02) {
+			currentState = State.Falling;
+		}
 
-    // Input Management------------------------------------------------
-    // Space: Jump
-    if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){
-    	currentState = State.Jumping;
-        Jump();
-    }
-    // Left/Right Shift: Attack
-    if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) {
-		Attack();
-    }
-    // Hold Space: Glide
-    else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping && gm.GetBooster() > 0 && gm.GetRecovering() == false){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
-    	currentState = State.Gliding;
-		Glide();
-	}
-    //------------------------------------------------------------------
+		// Action catching-------------------------------------------------------
 
-    // for Debug: Only print state to console if there is a change
-    changedState = currentState;
-    if (lastState != changedState) {
-        Debug.Log("Current State = " + currentState);
+		if(isAttacking){
+	        //attackbox.transform.position.y = 1.0f;
+	        //attackbox.SetActive(true);
+
+			if(startTime + attackTime < Time.time){
+			    isAttacking = false;
+				//attackbox.transform.position.y = -10;
+				attackbox.SetActive(false); // THIS WORKS DONT TOUCH
+
+			}
+		}
+
+	    // Input Management------------------------------------------------
+	    // Space: Jump
+	    if (Input.GetKeyDown(KeyCode.Space) && currentState == State.Running){
+	    	currentState = State.Jumping;
+	        Jump();
+	    }
+	    // Left/Right Shift: Attack
+	    if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift)) {
+			Attack();
+	    }
+	    // Hold Space: Glide
+	    else if(Input.GetKey(KeyCode.Space) && currentState != State.Running && currentState != State.Jumping && gm.GetBooster() > 0 && gm.GetRecovering() == false){	// or gauge is > 0 // can start gliding from jump?? assumedly if you hold it they would start gliding the INSTANT after v.y < 0
+	    	currentState = State.Gliding;
+			Glide();
+		}
+	    //------------------------------------------------------------------
+
+	    // for Debug: Only print state to console if there is a change
+	    changedState = currentState;
+	    if (lastState != changedState) {
+	        Debug.Log("Current State = " + currentState);
+	    }
+
     }
+
+	
 }
 
 //*****************************************************************************************
