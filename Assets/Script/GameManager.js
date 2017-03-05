@@ -68,7 +68,7 @@ public class GameManager extends MonoBehaviour{
 
         HPBar = Instantiate(HPBarPrefab, transform.position, Quaternion.Euler(Vector3(-90,0,0)));
         HPBar.transform.parent = GameObject.Find("HUD").transform;
-        HPBar.transform.localPosition = Vector3(1.12, 2.21, 1.16);	// apply position locally to HUD
+        HPBar.transform.localPosition = Vector3(1.24, 1.37, 1.16);	// apply position locally to HUD
 
         HPBarText = HPBarTextObj.GetComponent("Text");
 
