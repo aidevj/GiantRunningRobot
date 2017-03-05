@@ -39,6 +39,7 @@ public class GameManager extends MonoBehaviour{
     var currentHPBarWidth : float;
     var currentBooBarWidth : float;
     var HPBarText : UI.Text;			// Text component of HPBarTextObj
+    //var HPBar_Rend;						// HP Bar Renderer component
     var booster_affector : float;		// Number count to adjust booster gauge (+/-)
     var recovering : boolean;
 
@@ -70,6 +71,7 @@ public class GameManager extends MonoBehaviour{
         HPBar.transform.parent = GameObject.Find("HUD").transform;
         HPBar.transform.localPosition = Vector3(1.24, 1.37, 1.16);	// apply position locally to HUD
 
+        //HPBar_Rend = HPBar.GetComponent.<Renderer>();
         HPBarText = HPBarTextObj.GetComponent("Text");
 
       	boosterGauge = Instantiate(boosterGaugePrefab, transform.position, Quaternion.Euler(Vector3(-90,0,0)));
@@ -93,19 +95,22 @@ public class GameManager extends MonoBehaviour{
 
     function Update () {
 
-    //Key Press : P is used to Pause
-	if (Input.GetKeyDown(KeyCode.P)){
-    	if(currentState == GameState.Active){	
-    		currentState = GameState.Paused;
-    		GameObject.Find("MenuManager").GetComponent(MenuScript).AddScene(2);
-    	}
-    	else{
-    		GameObject.Find("MenuManager").GetComponent(MenuScript).UnloadScene(2);
-    		currentState = GameState.Active;
-    	}
-	}
 
-    if(currentState == GameState.Active){
+
+	    // Key Handling ----------------------------------
+		if (Input.GetKeyDown(KeyCode.P)){
+	    	if(currentState == GameState.Active){	
+	    		currentState = GameState.Paused;
+	    		GameObject.Find("MenuManager").GetComponent(MenuScript).AddScene(2);
+	    	}
+	    	else{
+	    		GameObject.Find("MenuManager").GetComponent(MenuScript).UnloadScene(2);
+	    		currentState = GameState.Active;
+	    	}
+		}
+
+		// Game State Handling ------------------------------
+	    if(currentState == GameState.Active){
     		// Actively update booster gauge
 	    	playerState = player.GetComponent(playerScript).GetState();
 	    	//Debug.Log(playerState);
@@ -127,11 +132,12 @@ public class GameManager extends MonoBehaviour{
 	    		recovering = false;
 			}
 
-
 	    }
-	    }
+	}
 
-	    // Player functions-----------------
+// Player functions-----------------
+	/// TakeDamage Function: Called from OnTriggerEnter (platformScript, enemyScript)
+	/// Handles all checks that occur on takeDamage
     public function TakeDamage(damage : int) {
     	// deplete HP
     	HP -= damage;
@@ -144,9 +150,18 @@ public class GameManager extends MonoBehaviour{
   		if (HP <= 0) {
   			HPBar.transform.localScale.x = 0f;
   		}
-    }
 
-    
+  		// Check amount and set color
+  		if (HP <= HP_MAX / 2) {
+  			//HPBar_Rend.material.shader = Shader.Find("Specular");		// set specular shader
+			//HPBar_Rend.material.color = Color.red;
+			HPBar.GetComponent.<Renderer>().material.color = Color.red;
+  		}
+  		if (HP >= HP_MAX / 2) {
+  			HPBar.GetComponent.<Renderer>().material.color = Color.green;
+  		}
+
+    }
 
 }
 
