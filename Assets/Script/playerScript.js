@@ -7,6 +7,7 @@ private var attackbox : GameObject;          // GET FROM GM
 private var startTime: float;
 private var attackTime : float = 0.5f;
 private var isAttacking: boolean = false;
+private var initialGravity: float;			//Variable to save the initial gravity scale. (Used to stop falling during pause)
 
 //private var HP : int = 100;  				// Integer: HP, default (100%)
 //private var BoosterGauge : int = 100;       // Interger: Booster Gauge count
@@ -21,6 +22,7 @@ function GetState() { return currentState; }
 function Start () {
     // Get Component of Rigidbody
     r2d = GetComponent.<Rigidbody2D>();
+    initialGravity = r2d.gravityScale;
 
     // Access to game object with GM script
     gm = GameObject.Find("GameManager").GetComponent(GameManager);
@@ -37,9 +39,11 @@ function Start () {
 }
 
 /// Update function: Called every frame
-function Update () {
+function FixedUpdate () {
 
     if(gm.currentState == gm.GameState.Active){
+    	r2d.gravityScale = initialGravity;
+
 		transform.position.x = startPosX;
 	    var lastState = currentState;	// for Debug: prints current state to console upon change
 
@@ -92,6 +96,11 @@ function Update () {
 	        Debug.Log("Current State = " + currentState);
 	    }
 
+	    r2d.velocity.y = Mathf.Clamp(r2d.velocity.y, -4.0f, 8.0f); //try for 6
+    }
+    else{ 
+    	r2d.velocity.y = 0; //set velocity to 0 to prevent falling
+    	r2d.gravityScale = 0; //disables gravity (< ^ BOTH are necessary)
     }
 
 	

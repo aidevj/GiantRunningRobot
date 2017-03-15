@@ -48,6 +48,7 @@ public class GameManager extends MonoBehaviour{
     @HideInInspector
     public enum GameState { Active, GameOver, Paused };
     public var currentState : GameState;
+    public var lastState : GameState;
 
 
     function Start () {
@@ -91,11 +92,10 @@ public class GameManager extends MonoBehaviour{
         //Debug.Log("Player state=" + boosterGauge.transform.parent.GetComponent(playerScript).GetState());
 
         currentState = GameState.Active;
+        lastState = currentState;
    }
 
     function Update () {
-
-
 
 	    // Key Handling ----------------------------------
 		if (Input.GetKeyDown(KeyCode.P)){
@@ -133,6 +133,10 @@ public class GameManager extends MonoBehaviour{
 			}
 
 	    }
+	    else if(currentState == GameState.GameOver && lastState != currentState){ //when dead, loads dead screen
+	    	GameObject.Find("MenuManager").GetComponent(MenuScript).AddScene(3); 
+	    }
+	    lastState = currentState;	// for Debug: prints current state to console upon change
 	}
 
 // Player functions-----------------
@@ -149,6 +153,7 @@ public class GameManager extends MonoBehaviour{
 
   		if (HP <= 0) {
   			HPBar.transform.localScale.x = 0f;
+  			currentState = GameState.GameOver; //sets state to Game Over to trigger Lose Screen
   		}
 
   		// Check amount and set color
@@ -162,6 +167,7 @@ public class GameManager extends MonoBehaviour{
   		}
 
     }
+
 
 }
 

@@ -3,12 +3,14 @@ public var x_velocity : int = -5;
 public var amplitude : float = 1;
 public var frequency : float = .7;
 
+private var r2d;      					    // Required: 2D Rigidbody Component
+
 private var gm : GameManager;				// GameManager object: reference of GameManager script
 
 // Fuction called when the enemy is created
 function Start() {
     // Get the rigidbody component
-    var r2d = GetComponent("Rigidbody2D");
+    r2d = GetComponent("Rigidbody2D");
 
     // Access to game object with GM script
     gm = GameObject.Find("GameManager").GetComponent(GameManager);
@@ -28,7 +30,14 @@ function OnBecameInvisible(){
 
 // Update Function
 function Update(){ 
+
+    if(gm.currentState == gm.GameState.Active){
+    	r2d.velocity.x = x_velocity;
     //transform.position += amplitude * (Mathf.Sin(2 * Mathf.PI * frequency * Time.time) - Mathf.Sin(2 * Mathf.PI * frequency*(Time.time - Time.deltaTime))) * transform.up;
+	}
+	else{
+    	r2d.velocity.x = 0;
+	}
 }
 
 // Function called when the enemy collides with another object

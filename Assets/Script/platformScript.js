@@ -30,17 +30,20 @@ function OnBecameInvisible(){
 }
 
 // Update Function
-function Update(){ 
+function FixedUpdate(){ 
 
     if(gm.currentState == gm.GameState.Active){
 	    r2d.velocity.x = x_velocity;
 
-	    if(player.transform.position.y - (playerHeight/2) <= transform.position.y + (HEIGHT/2.5)){ //the HEIGHT/2.5 = half of the total Height it the .5 allowing a buffer
-			GetComponent(EdgeCollider2D).enabled = false; //disables the collider so that the player can phase through the bottom of the platform
+	    if(player.transform.position.y - (playerHeight/2) <= transform.position.y + (HEIGHT/3)){ //the HEIGHT/2.5 = half of the total Height it the .5 allowing a buffer
+			GetComponent(BoxCollider2D).enabled = false; //disables the collider so that the player can phase through the bottom of the platform
 	    }
 	    else{
-			GetComponent(EdgeCollider2D).enabled = true; //enables the collider if the player is above the platform
+			GetComponent(BoxCollider2D).enabled = true; //enables the collider if the player is above the platform
 	    }
+    }
+    else{
+    	r2d.velocity.x = 0;
     }
 }
 

@@ -9,6 +9,9 @@ private var HPnumtext;
 
 
 function Start () {
+
+    // Access to game object with GM script
+    gm = GameObject.Find("GameManager").GetComponent(GameManager);
 	// Store object's script components in a variable to be used
 	//player = GameObject.Find("player");		///////
 	//playerScript = player.GetComponent(playerScript);
@@ -18,6 +21,11 @@ function Start () {
 }
 
 function Update () {
+
+	if(gm.currentState == gm.GameState.GameOver){
+		gameObject.SetActive(false);
+		GameObject.Find("Canvas").SetActive(false);
+	}
 	// Check Player HP and apply it to bar
 
 	// change text to show HP number on bar
