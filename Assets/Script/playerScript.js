@@ -45,7 +45,7 @@ function FixedUpdate () {
     	r2d.gravityScale = initialGravity;
 
 		transform.position.x = startPosX;
-	    var lastState = currentState;	// for Debug: prints current state to console upon change
+	    //var lastState = currentState;	// for Debug: prints current state to console upon change
 
 	    //Debug.Log( gm.GetBooster());
 	    // Check is player is dead
@@ -91,12 +91,12 @@ function FixedUpdate () {
 	    //------------------------------------------------------------------
 
 	    // for Debug: Only print state to console if there is a change
-	    changedState = currentState;
+	    /*changedState = currentState;
 	    if (lastState != changedState) {
 	        Debug.Log("Current State = " + currentState);
-	    }
+	    }*/
 
-	    r2d.velocity.y = Mathf.Clamp(r2d.velocity.y, -5.0f, 8.0f); //try for 6
+	    r2d.velocity.y = Mathf.Clamp(r2d.velocity.y, -4.0f, 8.0f); //try for 6
     }
     else{ 
     	r2d.velocity.y = 0; //set velocity to 0 to prevent falling
