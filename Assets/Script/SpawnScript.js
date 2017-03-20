@@ -51,4 +51,3 @@ function addPlatform() {
 	    Instantiate(platform, spawnPoint, Quaternion.Euler(Vector3(0, 0, 0)));
 	}
 }
-

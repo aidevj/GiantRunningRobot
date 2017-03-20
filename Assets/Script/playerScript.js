@@ -96,7 +96,7 @@ function FixedUpdate () {
 	        Debug.Log("Current State = " + currentState);
 	    }
 
-	    r2d.velocity.y = Mathf.Clamp(r2d.velocity.y, -4.0f, 8.0f); //try for 6
+	    r2d.velocity.y = Mathf.Clamp(r2d.velocity.y, -5.0f, 8.0f); //try for 6
     }
     else{ 
     	r2d.velocity.y = 0; //set velocity to 0 to prevent falling
